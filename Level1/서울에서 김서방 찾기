@@ -12,3 +12,13 @@ seoul / return
 • ["Jane", "Kim"] / "김서방은 1에 있다"
 
 [풀이]
+1. seoul에서 'Kim'의 index 값을 구한다.
+
+[소스 - JavaScript]
+function solution(seoul) {
+	var answer = '';
+	
+	answer = '김서방은 ' + seoul.indexOf('Kim') + '에 있다';
+	
+	return answer;
+}
