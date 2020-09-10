@@ -14,11 +14,9 @@ str은 부호(+,-)와 숫자로만 구성되어 있고, 잘못된 값이 입력�
 --------
 
 [풀이]
-
 문자열 s을 형변환 : String > Number 
 
 [소스]
-
 function solution(s) {
   var answer = 0;
   return answer = Number(s);
