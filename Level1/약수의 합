@@ -19,7 +19,7 @@ n / return
 1. 1부터 n까지 수 중, n의 약수를 구한다.
 2. 약수인 경우 더한다.
 
-[소스]
+[소스 - JavaScript]
 function solution(n) {
   var answer = 0;
 	
