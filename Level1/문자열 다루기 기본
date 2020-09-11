@@ -23,3 +23,18 @@ function solution(s) {
 	
   return answer;
 }
+
+[소스 - Java]
+import java.util.regex.Pattern;
+
+class Solution {
+  public boolean solution(String s) {
+    boolean answer = true;
+
+    if((s.length() != 4 && s.length() != 6) || !Pattern.matches("^[0-9]*$", s)) {
+      answer = false;
+    }
+
+    return answer;
+  }
+}
