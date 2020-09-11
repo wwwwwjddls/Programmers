@@ -18,3 +18,82 @@ n / result
 입출력 예 #2
 1부터 5 사이의 소수는 [2,3,5] 3개가 존재하므로 3를 반환
 
+[풀이]
+1. 2부터 n의 제곱근까지 약수를 구한다.
+2. n의 제곱근 다음 숫자부터 n까지 약수로 나눠지지 않는 숫자를 구한다.
+
+[소스 - JavaScript]
+function solution(n) {
+  var prime  = getPrime(parseInt(Math.sqrt(n)));
+  var answer = prime.length;
+
+  for(var i=parseInt(Math.sqrt(n))+1; i<=n; i++) {
+    for(var j=0; j<prime.length; j++) {
+      if(i%prime[j] === 0) break;
+    }
+    
+    if(j === prime.length) answer++;
+  }
+
+  return answer;
+}
+
+// 소수 구하기
+function getPrime(n) {
+  var num = [];
+
+  for(var i=2; i<=n; i++) {
+    for(var j=2; j<=n; j++) {
+      if(i !== j && i%j === 0) break;
+    }
+
+    if(j === n+1) num.push(i);
+  }
+
+  return num;
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public int solution(int n) {
+    List<Integer> arr = getPrime((int)Math.sqrt(n));
+    int answer        = 0;
+      
+    for(int i=(int)Math.sqrt(n)+1; i<=n; i++) {
+      boolean flag = true;
+
+      for(int j=0; j<arr.size(); j++) {
+        if(i%arr.get(j) == 0) {
+          flag = false;
+          break;
+        }
+      }
+
+      if(flag) answer++;
+    }
+
+    return answer + arr.size();
+  }
+  
+
+  List<Integer> getPrime(int n) {
+    List<Integer> pri = new ArrayList<>();
+
+    for(int i=2; i<=n; i++) {
+      boolean flag = true;
+
+      for(int j=2; j<=n; j++) {
+        if(i != j && i%j == 0) {
+          flag = false;
+          break;
+        }
+      }
+
+      if(flag) pri.add(i);
+    }
+    
+    return pri;         
+  }
+}
