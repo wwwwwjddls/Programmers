@@ -21,3 +21,11 @@ function solution(s) {
   var answer = 0;
   return answer = Number(s);
 }
+
+[소스 - Java]
+class Solution {
+  public int solution(String s) {
+    int answer = Integer.parseInt(s);
+      return answer;
+  }
+}
