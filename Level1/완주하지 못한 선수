@@ -32,15 +32,18 @@ participant /	completion / return
 [소스 - JavaScript]
 function solution(participant, completion) {
   var answer = '';
-
-  participant.sort((a, b) => (a > b) ? 1 : -1);
-  completion.sort((a, b) => (a > b) ? 1 : -1);
-		
-  participant.some((a, idx) => {
-    if(a !== completion[idx]) return answer = a;
+  var map    = participant.reduce((a, b) => {
+    a[b] = (a.hasOwnProperty(b)) ? a[b]+1 : 1; 
+    return a;
+  },{});
+	
+  completion.forEach((a) => map[a] = map[a]-1)
+	
+  Object.keys(map).some((a) => {
+    if(map[a] !== 0) return answer = a;
   });
 	
-  return answer;
+  return answer ;
 }
 
 [소스 - Java]
@@ -49,15 +52,22 @@ import java.util.*;
 class Solution {
   public String solution(String[] participant, String[] completion) {
     String answer = "";
+    Map<String, Integer> map = new HashMap<>();
 		
-    Arrays.sort(participant);
-    Arrays.sort(completion);
-
     for(int i=0; i<participant.length; i++) {
-      if(i > completion.length-1 || !participant[i].equals(completion[i])) {
-        answer = participant[i];
+      if(map.containsKey(participant[i])) map.replace(participant[i], map.get(participant[i])+1);
+      else map.put(participant[i], 1); 
+    }
+		
+    for(int i=0; i<completion.length; i++) {
+      map.replace(completion[i], map.get(completion[i])-1);
+    }
+		
+    for(String a : map.keySet()) {
+      if(map.get(a) > 0) {
+        answer = a;
         break;
-      } 
+      }
     }
 		
     return answer;
