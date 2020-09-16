@@ -25,9 +25,9 @@ participant /	completion / return
 "mislav"는 참여자 명단에는 두 명이 있지만, 완주자 명단에는 한 명밖에 없기 때문에 한명은 완주하지 못했습니다.
 
 [풀이]
-1. 이름순으로 정렬한다. 
-2. participant와 completion를 차례대로 비교한다.( participant와 completion을 비교하여 completion에 없는 경우, 해당 참여자는 완주하지 못한 것으로 봄 )
-
+1. { 참가자이름 : 명 수 }로 맵핑한다.
+2. 완주자 명단을 차례대로 확인하여 참가자 명단의 이름과 일치할 경우 명 수에서 -1 해준다.
+3. 명 수가 0이 아닌 참가자의 이름을 구한다.
 
 [소스 - JavaScript]
 function solution(participant, completion) {
