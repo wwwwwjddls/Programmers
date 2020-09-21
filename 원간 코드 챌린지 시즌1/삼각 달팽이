@@ -55,21 +55,21 @@ function solution(numbers) {
         y  -= 1;
       }
     }
-  else {
-    if(snail[x-1].indexOf(0) < 0) {
-      dir = 'd';
-      x  += 1;
-    }
     else {
-      x -= 1;
-      y -= 1;	
-    }		
+      if(snail[x-1].indexOf(0) < 0) {
+        dir = 'd';
+        x  += 1;
+      }
+      else {
+        x -= 1;
+        y -= 1;	
+      }		
+    }
   }
-}
 	
-	snail.forEach((a) => {
-		a.forEach((b) => answer.push(b));
-	});
+  snail.forEach((a) => {
+    a.forEach((b) => answer.push(b));
+  });
 	
-	return answer;
+  return answer;
 }
