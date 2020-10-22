@@ -41,6 +41,15 @@ numbers / hand / result
 5 / 9 / - / - / 	
 
 [풀이]
+1. 패드를 길이 3, 4의 배열로 생각한다.
+2. 왼손과 오른손의 현재 위치(패드의 index)를 구한다.
+3. numbers의 요소를 하나씩 확인한다.
+4. numbres의 위치(패드의 index)를 구한다.
+5. 0번째 row에 있는 경우, 왼손의 위치를 numbers의 위치로 변경하고 answer에 L을 더한다.
+6. 2번째 row에 있는 경우, 오른손의 위치를 numbers의 위치로 변경하고 answer에 R을 더한다.
+7. 1번째 row에 있는 경우, 오른손과 왼손 각각 numbers와의 거리를 구한다
+8. 왼손이 거리가 작거나, 거리는 같지만 hand가 left인 경우 왼손의 위치를 numbers의 위치로 변경하고 answer에 L을 더한다.
+9. 오른손의 거리가 작거나, 거리는 같지만 hand가 right인 경우 오른손의 위치를 number의 위치로 변경하고 answer에 
 
 [소스 - JavaScript]
 function solution(numbers, hand) {
@@ -66,7 +75,7 @@ function solution(numbers, hand) {
       if(lDis < rDis || (lDis === rDis && hand === 'left')) {
         loc['L'] = aLoc;
         answer  += 'L';
-			} 
+      } 
       else if(lDis > rDis || (lDis === rDis && hand === 'right')) {
         loc['R'] = aLoc;
         answer  += 'R';
@@ -75,4 +84,44 @@ function solution(numbers, hand) {
   });
 	
   return answer;
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public String solution(int[] numbers, String hand) {
+    String answer    = "";
+    List<String> pad = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#");
+    int[] lLoc       = {pad.indexOf("*")/3, pad.indexOf("*")%3};
+    int[] rLoc       = {pad.indexOf("#")/3, pad.indexOf("#")%3};
+		
+    for(int i=0; i<numbers.length; i++) {
+      int[] numLoc = {pad.indexOf(numbers[i]+"")/3, pad.indexOf(numbers[i]+"")%3};
+			
+      if(numLoc[1] == 0) {
+        lLoc    = numLoc;
+        answer += "L";
+      }
+      else if(numLoc[1] == 2) {
+        rLoc   = numLoc;
+        answer += "R";
+      }
+      else {
+        int lDis = Math.abs(lLoc[0] - numLoc[0]) + Math.abs(lLoc[1] - numLoc[1]);
+        int rDis = Math.abs(rLoc[0] - numLoc[0]) + Math.abs(rLoc[1] - numLoc[1]);
+				
+        if(lDis < rDis || (lDis == rDis && "left".equals(hand))) {
+          lLoc    = numLoc;
+          answer += "L";					
+        }
+        else if(lDis > rDis || (lDis == rDis && "right".equals(hand))) {
+          rLoc   = numLoc;
+          answer += "R";					
+        }
+      }
+    }
+
+    return answer;
+  }
 }
