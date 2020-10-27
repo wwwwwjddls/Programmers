@@ -63,3 +63,49 @@ function solution(N, stages) {
 }
 
 [소스 - Java]
+import java.util.*;
+
+class Solution {
+  public int[] solution(int N, int[] stages) {
+    int[] answer              = new int[N];
+    int len                   = stages.length;
+    int idx                   = 0;
+    Map<Integer, Double> rate = new HashMap<>();
+		
+    Arrays.sort(stages);
+
+    for(int i=1; i<=N; i++) {
+      int cnt = 0;
+			
+      for(int j=idx; j<stages.length; j++) {
+        if(i != stages[j]) {
+          idx = j;
+          break;
+        } 
+				
+        cnt++;
+      }
+			
+      rate.put(i,  (len == 0) ? 0 : (double)cnt/len);
+      len -= cnt;
+    }
+		
+    List<Integer> arr = new ArrayList<>(rate.keySet());
+		
+    Collections.sort(arr, new Comparator() {
+      @Override
+      public int compare(Object o1, Object o2) {
+        double a = rate.get(o1);
+        double b = rate.get(o2);
+				
+        return (a-b == 0.0) ? ((int)o1 < (int)o2) ? -1 : 1 : (a < b) ? 1 : -1;
+      }
+    });
+	
+    for(int i=0; i<arr.size(); i++) {
+      answer[i] = arr.get(i);
+    }
+		
+    return answer;
+  }
+}
