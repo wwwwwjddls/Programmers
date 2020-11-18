@@ -1,0 +1,51 @@
+[문제 설명]
+0 또는 양의 정수가 주어졌을 때, 정수를 이어 붙여 만들 수 있는 가장 큰 수를 알아내 주세요.
+예를 들어, 주어진 정수가 [6, 10, 2]라면 [6102, 6210, 1062, 1026, 2610, 2106]를 만들 수 있고, 이중 가장 큰 수는 6210입니다.
+0 또는 양의 정수가 담긴 배열 numbers가 매개변수로 주어질 때, 순서를 재배치하여 만들 수 있는 가장 큰 수를 문자열로 바꾸어 return 하도록 solution 함수를 작성해주세요.
+
+[제한 사항]
+• numbers의 길이는 1 이상 100,000 이하입니다.
+• numbers의 원소는 0 이상 1,000 이하입니다.
+• 정답이 너무 클 수 있으니 문자열로 바꾸어 return 합니다.
+
+[입출력 예]
+numbers / return
+[6, 10, 2] / "6210"
+[3, 30, 34, 5, 9] / "9534330"
+
+[풀이]
+1. 요소를 비교한다.
+2. 첫 번째와 두 번째를 앞뒤를 바꾸어 결합한 수가 큰 순서대로 정렬한다.
+3. 정렬한 요소를 String으로 변환한다.
+
+[소스 - JavaScript]
+function solution(numbers) {
+  var answer = '';
+	
+  numbers.sort((a, b) => {
+    return (String(a)+b < String(b)+a) ? 1 : -1;
+  });
+	
+  return answer = (numbers[0] === 0) ? '0' : numbers.join('');
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public String solution(int[] numbers) {
+    String answer    = "";
+    List<String> num = new ArrayList<>();
+	
+    for(int i=0; i<numbers.length; i++) num.add(numbers[i]+"");
+		
+    Collections.sort(num, new Comparator<String>() {
+      @Override
+      public int compare(String a, String b) {
+        return (b+a).compareTo(a+b);
+      }
+    });
+
+    return answer = ("0".equals(num.get(0))) ? "0" : String.join("", num);
+  }
+}
