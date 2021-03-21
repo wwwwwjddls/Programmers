@@ -39,8 +39,31 @@ nums / result
 따라서 최대 고를 수 있는 폰켓몬 종류의 수는 2입니다.
 
 [풀이]
-
+1. nums 중복을 제거한다.
+2. 중복을 제거한 길이와 nums/2의 길이를 비교한다.
+3. nums/2가 큰 경우 중복을 제거한 길이를 반대인 경우  nums/2를 반환한다.
 
 [소스 - JavaScript]
+function solution(nums) {
+  var answer = 0;
+  var nums_  = (new Set(nums)).size;
+  var num    = parseInt(nums.length/2);
+  return answer = (nums_<num) ? nums_ : num;
+}
 
 [소스 - Java]
+import java.util.*;
+
+class Solution {
+  public int solution(int[] nums) {
+    int answer = 0;
+    Set nums_  = new HashSet();
+		
+    for(int a : nums) nums_.add(a);
+		
+    int nums_length = nums_.size();
+    int numsLen = nums.length/2;
+        
+    return answer = (nums_length<numsLen) ? nums_length : numsLen;
+  }
+}
