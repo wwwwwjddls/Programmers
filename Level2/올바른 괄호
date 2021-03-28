@@ -1,0 +1,44 @@
+https://programmers.co.kr/learn/courses/30/lessons/12909
+
+[풀이]
+1. s요소를 하나씩 확인한다.
+2. (인 경우 arr에 담는다.
+3. )인 경우 arr의 길이가 0인경우 false 반환한다.
+4. )인 경우 arr의 길이가 0이 아닌경우 arr에서 하나를 제거한다.
+5. arr의 길이가 0이 아닌경우 false, 0인 경우 true를 반환한다.
+
+[소스 - JavaScript]
+function solution(s){
+  var answer = true;
+  var arr    = [];
+  
+  for(var i=0; i<s.length; i++) {
+    if(s[i]==='(') arr.push(s[i]);
+    else {
+      if(arr.length===0) return answer = false;
+      arr.pop();
+    }
+  }
+  
+  return answer = (arr.length===0) ? true : false;
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  boolean solution(String s) {
+    boolean answer = true;
+    Stack<Character> arr = new Stack<>();  
+		
+    for(int i=0; i<s.length(); i++) {
+      if(s.charAt(i)=='(') arr.add(s.charAt(i));
+      else {
+        if(arr.size()==0) return answer = false;
+        arr.pop();
+      }
+    }
+		
+    return answer = (arr.size()==0) ? true : false;
+  }
+}
