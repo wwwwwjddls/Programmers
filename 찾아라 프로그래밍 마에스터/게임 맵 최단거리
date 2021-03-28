@@ -1,0 +1,95 @@
+https://programmers.co.kr/learn/courses/30/lessons/1844
+
+[풀이]
+1. 위, 아래, 오른쪽, 위 중 maps의 1인 경우 map_에 담는다.
+2. map_의 담은 경우 maps의 1을 0으로 바꾼다.
+3. answer + 1을 한다.
+4. map_에 도착지점이 담긴경우 반환한다.
+5. 도착지점이 없고 map_의 길이가 0인 경우 -1을 반환한다.
+
+[소스 - JavaScript]
+function solution(maps) {
+  maps[0][0] = 0;
+  var answer = 1;
+  var map_   = [0];
+ 
+  while(true) {
+    var len = map_.length;
+	
+    for(var i=0; i<len; i++) {
+      var now = map_.shift();
+      var x   = parseInt(now/maps[0].length);
+      var y   = now%maps[0].length;
+
+      if(x!=0 && maps[x-1][y]!=0) {
+        map_.push((x-1)*maps[0].length+y);
+        maps[x-1][y] = 0;
+      }
+      if(y!=0 && maps[x][y-1]!=0) {
+        map_.push(x*maps[0].length+y-1);
+        maps[x][y-1] = 0;
+      }
+      if(x!=maps.length-1 && maps[x+1][y]!=0) {
+        map_.push((x+1)*maps[0].length+y);
+        maps[x+1][y] = 0;
+      }
+      if(y!=maps[x].length-1 && maps[x][y+1]!=0) {
+        map_.push(x*maps[0].length+y+1);
+        maps[x][y+1] = 0;		
+      }
+    }
+	
+    answer++;
+
+    if(map_.includes(maps.length*maps[0].length-1)) break;
+    if(map_.length==0) return answer = -1;
+  }
+
+  return answer;
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public int solution(int[][] maps) {
+    Queue<Integer> map_ = new LinkedList<>();
+    maps[0][0] = 0;
+    int answer = 1;
+    map_.add(0);		
+		
+    while(true) {
+      int len = map_.size();
+			
+      for(int i=0; i<len; i++) {
+       int now = map_.poll();
+       int x   = now/maps[0].length;
+       int y   = now%maps[0].length;
+				
+       if(x!=0 && maps[x-1][y]!=0) {
+         map_.add((x-1)*maps[0].length+y);
+         maps[x-1][y] = 0;
+       }
+       if(y!=0 && maps[x][y-1]!=0) {
+         map_.add(x*maps[0].length+y-1);
+         maps[x][y-1] = 0;
+       }
+       if(x!=maps.length-1 && maps[x+1][y]!=0) {
+         map_.add((x+1)*maps[0].length+y);
+         maps[x+1][y] = 0;
+       } 
+       if(y!=maps[x].length-1 && maps[x][y+1]!=0) {
+         map_.add(x*maps[0].length+y+1);
+         maps[x][y+1] = 0;
+       }
+     }
+			
+     answer++;
+			
+     if(map_.contains(maps.length*maps[0].length-1)) break;
+     if(map_.size()==0) return answer = -1;
+   }
+		
+   return answer;
+ }
+}
