@@ -1,0 +1,48 @@
+https://programmers.co.kr/learn/courses/30/lessons/12981
+
+[풀이]
+1. words의 요소를 확인한다.
+2. 요소 하나씩 s_에 담는다.
+3. l에 마지막글자를 담는다.
+4. s_에 포함되어 있거나, l로 시작하지 않는 경우 반환한다.
+
+[소스 - JavaScript]
+function solution(n, words) {
+  var answer = [0,0];
+  var s_     = [];
+  var l      = '';
+  
+  words.some((a,i) => {
+    if(s_.includes(a) || !a.startsWith(l))  return answer = [i%n+1, parseInt(i/n)+1];  
+    s_.push(a);
+    l = a[a.length-1];
+  });
+
+  return answer;
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public int[] solution(int n, String[] words) {
+    int[] answer    = {0,0};
+    List<String> s_ = new ArrayList<>();
+    String l        = "";
+    
+    for(int i=0; i<words.length; i++) {
+      String a = words[i];
+    	
+      if(s_.contains(a) || !a.startsWith(l)) {
+        answer[0] = i%n+1;
+        answer[1] = i/n+1;
+        break;
+      }
+    	
+      s_.add(a);
+      l = ""+a.charAt(a.length()-1);
+    }
+    
+    return answer;
+  }
+}
