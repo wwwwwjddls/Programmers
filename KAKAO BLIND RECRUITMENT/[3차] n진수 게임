@@ -1,0 +1,56 @@
+https://programmers.co.kr/learn/courses/30/lessons/17687
+
+[풀이]
+1. t*m만큼 n지수로 변환하여 answer_에 담는다.
+2. answer_에서 p-1요소를 확인한다.
+3. 문자인 경우 대문자로 변환한다.
+4. p에 m을 더하여 t까지 확인한다.
+
+[소스 - JavaScript]
+function solution(n,t,m,p) {
+  var answer  = '';
+  var answer_ = '';
+  
+  for(var i=0; i<t*m; i++) {
+    answer_ += i.toString(n); 
+  }
+  
+  for(var i=0; i<t; i++) {
+    var a   = answer_[p-1];
+    answer += !isNaN(a) ? a : a.toUpperCase();
+    p      += m;
+	
+    if(answer.length==t) break;
+  }
+  
+  return answer;
+}
+
+[소스 - Java]
+class Solution {
+  public String solution(int n, int t, int m, int p) {
+    String answer  = "";
+    String answer_ = "0";
+    
+    for(int i=1; i<t*m; i++) {
+      int a      = i;
+      String num = "";
+      
+      while(a>0) {
+        if(a%n < 10) num = (a%n) + num;
+        else num = ((char)((a%n) + 55)+"").toUpperCase() + num;
+        
+        a /= n;
+      }
+      
+      answer_ += num;
+    }
+
+    for(int i=0; i<t; i++) {
+      answer += answer_.charAt(p-1);
+      p      += m;
+    }
+    
+    return answer;
+  }
+}
