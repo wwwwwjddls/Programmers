@@ -1,0 +1,62 @@
+https://programmers.co.kr/learn/courses/30/lessons/17686
+
+[풀이]
+1. 숫자가 아닌 첫 번째 부분을 소문자로 변환하여 head에 담는다.
+2. 숫자부분의 앞자리 5개에 대하여 num에 담는다.
+3. files_에 files 순서대로 담는다.
+4. 헤더, 숫자 순으로 정렬한다.
+
+[소스 - JavaScript]
+function solution(files) {
+  var answer  = [];
+  var files_  = [];
+  
+  files.forEach((a) => {
+    var head = a.match(/[^0-9]+/g)[0].toLowerCase();
+    var num  = Number(a.match(/[0-9]+/g)[0].substr(0,5));
+    files_.push([a,head,num]);
+  });
+  
+  files_.sort((a,b) => {
+    return a[1] < b[1] ? -1
+         : a[1] > b[1] ? 1
+         : a[2] < b[2] ? -1
+         : a[2] > b[2] ? 1
+         : 0
+  });
+  
+  return answer = files_.map((a) => a=a[0]);
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public String[] solution(String[] files) {
+    String[] answer                   = new String[files.length];
+    List<Map<String, String>> answer_ = new ArrayList<>();
+    
+    for(int i=0; i<files.length; i++) {
+      Map<String, String> map = new HashMap<>();
+      map.put("FILE", files[i]);
+      map.put("HEAD", files[i].split("[0-9]")[0].toLowerCase());
+      String num = Arrays.stream(files[i].split("[^0-9]")).filter(v -> !"".equals(v)).toArray(String[]::new)[0];
+      map.put("NUM", num);
+      answer_.add(map);
+    }
+    
+    Collections.sort(answer_, new Comparator<Map<String, String>>() {
+      @Override
+      public int compare(Map<String, String> a, Map<String, String> b) {
+        return (a.get("HEAD").compareTo(b.get("HEAD")) != 0) ? a.get("HEAD").compareTo(b.get("HEAD"))
+        : (Integer.parseInt(a.get("NUM"))<Integer.parseInt(b.get("NUM"))) ? -1
+        : (Integer.parseInt(a.get("NUM"))>Integer.parseInt(b.get("NUM"))) ? 1
+        : 0;
+      }	
+    });
+    
+    for(int i=0; i<answer_.size(); i++) answer[i] = answer_.get(i).get("FILE");
+    
+    return answer;
+  }
+}
