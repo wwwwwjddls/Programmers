@@ -2,7 +2,12 @@ https://programmers.co.kr/learn/courses/30/lessons/17684
 
 
 [풀이]
-1. 
+1. msg 끝에 공백을 더한다.
+2. 숫자 1부터 차례대로 문자와 맵핑하여 dic에 담는다.
+3. msg문자를 차례대로 확인한다.
+4. 이전 문자와 확인하는 문자를 더하여 dic에 있는지 확인한다.
+5. 있는 경우 이전 문자와 더한다.
+6. 없는 경우 이전 문자를 answer에 담고, dic에 마지막 dic의 숫자에 1을 더하여 담는다.
 
 [소스 - JavaScript]
 function solution(msg) {
