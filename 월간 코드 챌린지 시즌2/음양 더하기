@@ -1,0 +1,24 @@
+https://programmers.co.kr/learn/courses/30/lessons/76501
+
+[풀이]
+1. absolutes 요소와 signs를 확인한다.
+2. signs요소가 false인 경우 absolutes 요소를 뺀다.
+3. signs요소가 true인 경우 absolutes 요소를 더한다.
+
+[소스 - JavaScript]
+function solution(absolutes, signs) {
+  var answer = 123456789;
+  return answer = absolutes.reduce((a,b,i) => a += (signs[i]) ? b : -b, 0);
+}
+[소스 - Java]
+class Solution {
+  public int solution(int[] absolutes, boolean[] signs) {
+    int answer = 0;
+        
+    for(int i=0; i<absolutes.length; i++) {
+      answer += (signs[i]) ? absolutes[i] : -absolutes[i];
+    }
+        
+    return answer;
+  }
+}
