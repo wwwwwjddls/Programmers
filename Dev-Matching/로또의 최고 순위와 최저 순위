@@ -1,0 +1,39 @@
+https://programmers.co.kr/learn/courses/30/lessons/77484
+
+[풀이]
+1. win_nums에서 lottos에 없는 수를 센다.
+2. lottos에서 0의 수를 센다.
+3. wins_nums에서 lottos에 있는 수를 cnt에 담는다.
+4. 없는 수와 0의 수 중 작은 숫자와 cnt를 더하여 max에 담는다.
+5. max가 0인 경우 6을 아닌 경우 7에서 max를 뺀다.
+6. cnt가 0인 경우 6을 아닌 경우 7에서 cnt를 뺀다.
+
+[소스 - JavaScript]
+function solution(lottos, win_nums) {
+  var answer = [];
+  var win    = win_nums.filter((a) => !lottos.includes(a)).length;
+  var zero   = lottos.filter((a) => a===0).length;
+  var cnt    = win_nums.length-win
+  var max    = cnt+Math.min(win,zero);
+
+  return answer = [(max==0) ? 6 : 7-max, (cnt==0) ? 6 : 7-cnt];
+}
+
+[소스 - Java]
+import java.util.*;
+import java.util.stream.Collectors;
+
+class Solution {
+  public int[] solution(int[] lottos, int[] win_nums) {
+    int[] answer = new int[2];
+    List<Integer> lottos_  = Arrays.stream(lottos).boxed().collect(Collectors.toList());
+    int win      = Arrays.stream(win_nums).boxed().filter(i -> !lottos_.contains(i)).collect(Collectors.toList()).size();
+    int zero     = lottos_.stream().filter(i -> i==0).collect(Collectors.toList()).size();
+    int cnt      = win_nums.length-win;
+    int max      = cnt+Math.min(win, zero);
+    answer[0]    = (max==0) ? 6 : 7-max;
+    answer[1]    = (cnt==0) ? 6 : 7-cnt;
+    		
+    return answer;
+  }
+}
