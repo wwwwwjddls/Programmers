@@ -10,6 +10,7 @@ function solution(absolutes, signs) {
   var answer = 123456789;
   return answer = absolutes.reduce((a,b,i) => a += (signs[i]) ? b : -b, 0);
 }
+
 [소스 - Java]
 class Solution {
   public int solution(int[] absolutes, boolean[] signs) {
