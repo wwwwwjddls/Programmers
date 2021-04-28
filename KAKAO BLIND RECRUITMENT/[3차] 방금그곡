@@ -1,0 +1,129 @@
+https://programmers.co.kr/learn/courses/30/lessons/17683
+
+[풀이]
+1. Z=C# / Y=D# / X=F# / W-G# / V=A# 로 문자를 치환한다.
+2. musicinfos 요소를 하나씩 확인한다.
+3. 시작과 종료시간을 빼서 경과시간을 구한다.
+4. 경과시간 길이만큼 악보를 반복한다.
+5. 요소를 계산한 시간과 계산한 악보를 음악제목을 key값으로 저장한다.
+6. 요소를 하나씩 확인한다.
+7. m이 계산한 악보에 포함되어 있고, 시간이 가장 긴 경우 answer에 담는다.
+
+[소스 - JavaScript]
+function solution(m, musicinfos) {
+  var answer = '';
+  var m_     = {};
+  m          = change(m);
+  
+  musicinfos.forEach((a,i) => {
+    var a_    = a.split(',');
+    var time_ = Math.abs(time(a_[0], a_[1]));
+    m_[a_[2]] = sheet(change(a_[3]), time_)
+  });
+  
+  for(var a of Object.keys(m_)) {
+    if(m_[a].includes(m)) {
+      if(answer.length==0||m_[answer].length<m_[a].length) answer = a;
+    }
+  }
+
+  return answer = (answer.length==0) ? '(None)' : answer;
+}
+
+// Z=C# / Y=D# / X=F# / W-G# / V=A#
+function change(a) {
+  return a.replace(/C#/g, 'Z')
+    .replace(/D#/g, 'Y')
+    .replace(/F#/g, 'X')
+    .replace(/G#/g, 'W')
+    .replace(/A#/g, 'V');  
+}
+
+function time(a,b) {
+  var a_ = a.split(':')//.map((aa) => parseInt(aa));
+  var b_ = b.split(':')//.map((bb) => parseInt(bb));
+  var at = a_[0]*60+parseInt(a_[1]);
+  var bt = b_[0]*60+parseInt(b_[1]);
+  return bt-at;
+}
+
+function sheet(a, t) {
+  if(a.length>t) return a.substr(0,t);
+  var r = a;
+  for(var i=0; i<t-a.length; i++) r+=a[i%a.length];
+  return r;
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public String solution(String m, String[] musicinfos) {
+    String answer 			  = "";
+	    int max                   = 0;
+	    Map<Integer, String[]> map = new HashMap<>();
+	    String m_     			  = change(m);
+	   
+	    for(int i=0; i<musicinfos.length; i++) {
+	      String[] temp = new String[3];
+	      String[] music = musicinfos[i].split(",");  
+	      int time_      = Math.abs(time(music[0], music[1]));
+	      String sheet_  = sheet(change(music[3]), time_); 
+	
+	      temp[0] = sheet_;
+	      temp[1] = ""+time_;
+	      temp[2] = music[2];
+	      
+	      map.put(i, temp);
+	    }
+	    
+	    for(int key : map.keySet()) {
+	      if(map.get(key)[0].contains(m_)) {
+	        if(answer.length()==0 ||  Integer.parseInt(map.get(max)[1])<Integer.parseInt(map.get(key)[1])) {
+	          max    = key;
+	          answer = map.get(key)[2]; 
+	        }
+	      }
+	    }
+	    
+    return answer = (answer.length()==0) ? "(None)" : answer;
+  }
+    
+	  //Z=C# / Y=D# / X=F# / W-G# / V=A#
+	  String change(String a) {
+	    StringBuilder sb = new StringBuilder();
+	    char[] a_        = a.toCharArray();
+
+	    for(int i=0; i<a_.length; i++) {
+	      char t = a_[i];
+	      if(t=='#') {
+	        char s = sb.charAt(sb.length()-1);
+	        sb.deleteCharAt(sb.length()-1);
+	        
+          if(s=='C') sb.append('Z');
+	        else if(s=='D') sb.append('Y');
+	        else if(s=='F') sb.append('X');
+	        else if(s=='G') sb.append('W');
+	        else if(s=='A') sb.append('V');
+	      }
+	      else sb.append(t);
+	    }
+	    
+	    return sb.toString();
+	  }   
+  
+	  int time(String a, String b) {
+	    String[] a_ = a.split(":");
+	    String[] b_ = b.split(":");
+	    int at = Integer.parseInt(a_[0])*60+Integer.parseInt(a_[1]);
+	    int bt = Integer.parseInt(b_[0])*60+Integer.parseInt(b_[1]);
+	    return bt-at; 
+	  }
+  
+	  String sheet(String a, int b) {
+	    StringBuilder sb = new StringBuilder(a);
+	    if(sb.length()>b) return sb.substring(0, b).toString();
+	    for(int i=0; i<b-a.length(); i++) sb.append(a.charAt(i%a.length()));
+	    return sb.toString();
+	  }
+}
