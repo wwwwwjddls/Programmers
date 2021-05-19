@@ -1,0 +1,40 @@
+https://programmers.co.kr/learn/courses/30/lessons/12985
+
+[풀이]
+1. n이 1이 아니고 a/2와 b/2의 몫이 다른 경우를 확인한다.
+2. answer에 1을더하고, n을 2로 나눈다.
+3. a를 2로 나누고 b도 2로 나눈다.
+
+[소스 - JavaScript]
+function solution(n,a,b) {
+  var answer = 1;
+  a          = a-1
+  b          = b-1;
+
+  while(n!==1 && parseInt(a/2)!==parseInt(b/2)) {
+    answer += 1;
+    n      /= 2;
+    a       = parseInt(a/2);
+    b       = parseInt(b/2);
+  }
+
+  return answer;
+}
+
+[소스 - Java]
+class Solution {
+  public int solution(int n, int a, int b) {
+    int answer = 1;
+    a          = a-1;
+    b          = b-1;
+        
+    while(n!=1 && a/2!=b/2) {
+      answer += 1;
+      n      /= 2;
+      a      /= 2;
+      b      /= 2;
+    }
+        
+    return answer;
+  }
+}
