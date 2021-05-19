@@ -1,0 +1,98 @@
+https://programmers.co.kr/learn/courses/30/lessons/67258
+
+[풀이]
+1. set을 통해서 gems 중복을 제거한 길이를 구한다.
+3. map의 길이와 set의 길이가 다른경우, gems의 요소가 없는 경우 담는다. gems의 요소가 있는 경우 1을 더한다. e에 1을 더한다.
+4. map의 길이와 set의 길이가 같은경우, gems의 요소의 숫자가 1인 경우 제거한다. 1이 아닌 경우 1을 뺀다. s에 1을 더한다.
+5. 3번과 4번 과정을 반복하여 s와 e의 길이가 가장 짧은 요소를 answer에 담는다.
+
+
+[소스 - JavaScript]
+function solution(gems) {
+  var answer = [1, gems.length];
+  var cnt    = new Set(gems).size;
+  var dis    = gems.length;
+  var s      = 0;
+  var e      = 0;
+  var key    = 0;
+  var map    = {};
+
+
+  while(s<=gems.length && e<=gems.length) {
+    var sG = gems[s];
+    var eG = gems[e];
+
+    if(cnt!==key) {
+      if(map.hasOwnProperty(eG)) map[eG]++;
+      else {
+        map[eG] = 1;
+        key++;
+      }
+      e++;
+    }
+
+    if(cnt===key) {
+      var d = e-s;
+      if(d < dis) {
+        dis    = d;
+        answer = [s+1, e]; 
+      }
+
+      if(map[sG]!==1) map[sG]--;
+      else {
+       delete map[sG];
+       key--;
+      }
+      s++;
+    }
+  }
+
+  return answer;
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public int[] solution(String[] gems) {
+    int[] answer = {1, gems.length};
+    int cnt      = new HashSet(Arrays.asList(gems)).size();
+    int dis      = gems.length;
+    int s        = 0;
+    int e        = 0;
+    int key      = 0;
+    Map<String, Integer> map = new HashMap<>();
+    
+    while(s<=gems.length && e<=gems.length) {
+      String sG = (s==gems.length) ? gems[s-1] : gems[s];
+      String eG = (e==gems.length) ? gems[e-1] : gems[e];
+     
+      if(cnt!=key) {
+        if(map.containsKey(eG)) map.replace(eG, map.get(eG)+1);
+        else {
+          map.put(eG, 1);
+          key++;
+        }
+        e++;
+      }
+      
+      if(cnt==key) {
+        int d = e-s;
+        if(d<dis) {
+          dis       = d;
+          answer[0] = s+1;
+          answer[1] = e;
+        }
+        
+        if(map.get(sG)!=1) map.replace(sG, map.get(sG)-1);
+        else {
+          map.remove(sG);
+          key--;
+        }
+        s++;
+      }
+    }
+    
+    return answer;
+  }
+}
