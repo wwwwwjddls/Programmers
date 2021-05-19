@@ -1,0 +1,79 @@
+https://programmers.co.kr/learn/courses/30/lessons/76502
+
+[풀이]
+1. s가 옳은 괄호인지 확인하여 맞으면 answer에 1을 더한다.
+2. s의 첫번째 요소를 제거하여 마지막에 붙여 1번을 반복한다.
+3. s의 요소가 열린 괄호인 경우 배열에 넣는다.
+4. s가 닫히는 괄호인 경우, 배열의 마지막요소와 비교하여 다른 경우 false를 반환한다.
+5. 배열에 요소가 남아있는 경우 false를 반환한다.
+6. 4번과 5번의 경우가 아닌 경우 true를 반환한다.
+
+[소스 - JavaScript]
+function solution(s) {
+  var answer = 0;
+  var s_     = s.split('');
+  
+  for(var i=0; i<s_.length; i++) {
+    if(check(s_)) answer++;
+    s_.push(s_.shift());
+  }
+  
+  return answer;
+}
+
+function check(arr) {
+  var t = [];
+  
+  for(var i=0; i<arr.length; i++) {
+    var a = arr[i];
+    if(a==='(' || a==='[' || a==='{') t.push(a);
+    else {
+      if(t.length===0) return false;
+	  
+      var t_ = t.pop();
+      if((t_==='(' && a!==')')
+       ||(t_==='[' && a!==']')
+       ||(t_==='{' && a!=='}')) return false;
+    }
+  }
+  
+  return (t.length===0) ? true : false;
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public int solution(String s) {
+    int answer = 0;
+    Deque<Character> queue = new ArrayDeque<>();
+
+    for(int i=0; i<s.length(); i++) queue.add(s.charAt(i));
+    
+    for(int i=0; i<queue.size(); i++) {
+      if(check(queue.toArray())) answer++;
+      queue.add(queue.poll());
+    }
+    
+    return answer;
+  }
+    
+  boolean check(Object[] arr) {
+    Stack<Character> stack = new Stack<>();
+	  
+    for(int i=0; i<arr.length; i++) {
+      char a = (char)arr[i];
+      if(a=='(' || a=='[' || a=='{') stack.push(a);
+      else {
+        if(stack.size()==0) return false;
+			  
+        char s_ = stack.pop();
+        if((s_=='(' && a!=')')
+         ||(s_=='[' && a!=']')
+         ||(s_=='{' && a!='}')) return false;
+      }
+    }
+	  
+    return (stack.size()==0) ? true : false;        
+  }
+}
