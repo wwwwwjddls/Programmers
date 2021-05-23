@@ -1,0 +1,32 @@
+https://programmers.co.kr/learn/courses/30/lessons/62048
+
+[풀이]
+1. (w*h) - w+h-(w와 h의 최대공약수)
+
+[소스 - JavaScript]
+function solution(w, h) {
+  var answer = (w*h)-(w+h-com(w,h));
+  return answer;
+}
+
+function com(w, h) {
+  var min = Math.min(w,h);
+  for(var i=min; i>0; i--) {
+    if(w%i===0 && h%i===0) return i;
+  }
+}
+[소스 - Java]
+class Solution {
+  public long solution(int w, int h) {
+    long answer = ((long)w*h)-(w+h-com(w,h));
+    return answer;
+  }
+    
+  int com(int w, int h) {
+    int min = Math.min(w,h);
+    for(int i=min; i>0; i--) {
+      if(w%i==0 && h%i==0) return i;
+    }
+  return 0;
+  }
+}
