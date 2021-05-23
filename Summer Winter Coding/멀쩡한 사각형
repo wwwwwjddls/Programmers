@@ -15,6 +15,7 @@ function com(w, h) {
     if(w%i===0 && h%i===0) return i;
   }
 }
+
 [소스 - Java]
 class Solution {
   public long solution(int w, int h) {
