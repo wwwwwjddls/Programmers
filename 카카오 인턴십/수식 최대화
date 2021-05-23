@@ -1,0 +1,134 @@
+https://programmers.co.kr/learn/courses/30/lessons/67257
+
+[풀이]
+1. ['+', '-', '*']의 모든 경우의 수를 구한다.
+2. expression을 숫자와 수식으로 나누어 배열을 만든다.
+3. ['+', '-', '*']의 경우르 수식 차례대로 expression을 계산한다
+4. 수식과 expression의 요소가 다르면 tmp배열에 담는다.
+5. 수식과 expression의 요소가 같으면 tmp마지막요소, 수식, expression 첫번째 요소를 계산하여 tmp에 담는다.
+6. 4번과 5번을 expression요소가 하나남을 때까지 반복한다.
+7. ['+', '-', '*']의 경우로 계산된 expression 값을 비교하여 절대랎 최대를 answer에 담는다.
+
+[소스 - JavaScript]
+function solution(expression) {
+  var answer = 0;
+  var oper   = case_o(['+', '-', '*'], [], []);
+  for(var i=0; i<oper.length; i++) {
+    var num = cal(change(expression), oper[i]);
+    if(answer<num) answer = num;
+  }
+
+  return answer;
+}
+
+function cal(e, o) {
+  var tmp = [];
+  var o_  = o.shift();
+  
+  while(true) {
+    var e_ = e.shift();
+    if(e_===o_) tmp.push(eval(tmp.pop()+o_+e.shift()));
+    else tmp.push(e_);
+	
+    if(e.length===0) {
+      e   = tmp.map((a) => a);
+      tmp = [];
+      o_  = o.shift();
+      if(e.length===1 && tmp.length===0) break;
+    }
+  }
+  
+  return Math.abs(e[0])
+} 
+
+function case_o(arr, t, r) {
+  if(t.length===arr.length) {
+    r.push([].concat(t));
+    return;
+  }
+  
+  for(var i=0; i<arr.length; i++) {
+    if(!t.includes(arr[i])) {
+      t.push(arr[i]);
+      case_o(arr, t, r);
+      t.pop();
+    }
+  }
+  
+  return r;
+}
+
+function change(s) {
+  return s.replace(/-/g, ',-,')
+          .replace(/\*/g, ',*,')
+          .replace(/\+/g, ',+,')
+          .split(',');
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public long solution(String expression) {
+    long answer = 0;
+    String[] o = {"+", "-", "*"};
+    List<Deque<String>> oper = case_o(o, new ArrayList<>());
+
+    for(int i=0; i<oper.size(); i++) {
+      Long num = cal(change(expression), oper.get(i));
+      if(answer<num) answer = num;
+    }
+
+    return answer;
+  }
+    
+  long cal(Queue<String> e, Deque<String> o) {
+    Deque<String> t = new LinkedList<>();
+    String o_       = o.poll();
+	
+    while(true) {
+      String e_ = e.poll();
+      if(e_.equals(o_)) {
+        if("-".equals(o_)) t.add(""+(Long.parseLong(t.pollLast())-Long.parseLong(e.poll())));
+        if("+".equals(o_)) t.add(""+(Long.parseLong(t.pollLast())+Long.parseLong(e.poll())));
+        if("*".equals(o_)) t.add(""+(Long.parseLong(t.pollLast())*Long.parseLong(e.poll())));
+      }
+      else t.add(e_);
+	  
+      if(e.size()==0) {
+        while(t.size()!=0) e.add(t.poll());
+        o_ = o.poll();
+        if(e.size()==1 && t.size()==0) break;
+      }
+    }
+	  
+    return Math.abs(Long.parseLong(e.poll()));
+  }
+  
+  List<Deque<String>> case_o(String[] arr,  List<Deque<String>> r) {
+    for(int i=0; i<arr.length; i++) {
+      for(int j=0; j<arr.length; j++) {
+        for(int k=0; k<arr.length; k++) {
+          if(i!=j && j!=k && k!=i) {
+            Deque<String> t = new LinkedList<>();
+            t.add(arr[i]);
+            t.add(arr[j]);
+            t.add(arr[k]);
+            r.add(t);
+          }
+        }
+      }
+    }
+	  
+    return r;
+  }
+  
+  Queue<String> change(String s) {
+    Queue<String> que = new LinkedList<>();
+    String[] arr      = s.replaceAll("-", ",-,").replaceAll("[+]", ",+,").replaceAll("[*]", ",*,").split(",");
+    
+    for(String a : arr) que.add(a);
+   
+    return que;
+  }
+}
