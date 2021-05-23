@@ -1,0 +1,55 @@
+https://programmers.co.kr/learn/courses/30/lessons/77885
+
+[풀이]
+1. numbers의 요소를 확인한다.
+2. 요소가 짝수인 경우 다음 수를 반환한다.
+3. 요소가 홀수인데 0이 없는 경우 (10 + 앞의 한자리를 0으로 변경)한 이진수에 해당하는 수를 반환한다.
+3. 요소가 홀수인데 0이 있는 경우 (마지막 index 0을 1로 index다음의 1을 0으로 변경)한 이진수에 해당하는 수를 반환한다.
+
+[소스 - JavaScript]
+function solution(numbers) {
+  var answer = numbers.map((a) => {
+    if(a%2==0) return a+1;
+    else {
+      var a_ = a.toString(2);
+      if(!a_.includes(0)) {
+        var idx = (a>>1===0) ? '10' : '10'+(a>>1).toString(2);
+        return parseInt(idx, 2);
+      }
+      else {
+        var idx = a_.lastIndexOf(0);
+        return parseInt(a_.substr(0,idx)+1+0+a_.substr(idx+2), 2)
+      }  
+    }
+  });
+  return answer;
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public long[] solution(long[] numbers) {
+    long[] answer = {};
+    List<Long> r  = new ArrayList<>();
+		
+    for(int i=0; i<numbers.length; i++) {
+      long a = numbers[i];
+      if(a%2==0) r.add(a+1);
+      else {
+        String a_ = Long.toBinaryString(a);
+        if(!a_.contains("0")) {
+          String idx = (a>>1==0) ? "10" : "10"+Long.toBinaryString((a>>1));
+          r.add(Long.parseLong(idx, 2));
+        }
+        else {
+          int idx     = a_.lastIndexOf("0");
+          String idx_ = (idx+2==a_.length()) ? a_.substring(0, idx)+"10" : a_.substring(0, idx)+"10"+a_.substring(idx+2, a_.length());
+          r.add(Long.parseLong(idx_, 2));
+        }
+      }
+    }
+		
+    return answer = r.stream().mapToLong(i->i).toArray();
+  }
+}
