@@ -1,0 +1,47 @@
+https://programmers.co.kr/learn/courses/30/lessons/12913
+
+[풀이]
+1. i+1번째 행을 확인한다.
+2. i+1요소와 i번째 요소중 합산이 제일 큰 것을 i+1요소에 담는다.
+3. 마지막행까지 반복한다.
+4. 마지막행에서 가장 큰 값을 반환한다.
+
+[소스 - JavaScript]
+function solution(land) {
+  var answer = 0;
+  
+  for(var i=0; i<land.length-1; i++) {
+    for(var j=0; j<land[i+1].length; j++) {
+      var sum = 0;
+      for(var k=0; k<land[i].length; k++) {
+        if(j!==k && sum<land[i+1][j]+land[i][k]) sum = land[i+1][j]+land[i][k];
+      }
+      land[i+1][j] = sum;
+    }
+  }
+ 
+  return answer = Math.max.apply(null, land[land.length-1]);
+}
+
+[소스 - Java]
+class Solution {
+  int solution(int[][] land) {
+    int answer = 0;
+    
+    for(int i=0; i<land.length-1; i++) {
+      for(int j=0; j<land[i+1].length; j++) {
+        int sum = 0;
+        for(int k=0; k<land[i].length; k++) {
+          if(j!=k && sum<land[i+1][j]+land[i][k]) sum = land[i+1][j]+land[i][k]; 
+        }
+        land[i+1][j] = sum;
+      }
+    }
+    
+    for(int i=0; i<land[land.length-1].length; i++) {
+      if(answer<land[land.length-1][i]) answer = land[land.length-1][i];
+    }
+    
+    return answer;
+  }
+}
