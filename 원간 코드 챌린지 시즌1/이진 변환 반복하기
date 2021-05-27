@@ -1,0 +1,36 @@
+https://programmers.co.kr/learn/courses/30/lessons/70129
+
+[풀이]
+1. s에서 0을 제거하여 t에 담는다.
+2. r의 0번째 1을 더한다.
+3. r의 1번째 s의 길이에서 t의 길이를 뺀다.
+4. t의 길이가 1이면 r을 반환한다.
+5. t의 길이가 1이 아니면 t를 이진수로 변환하여 2,3,4을 반복한다.
+
+[소스 - JavaScript]
+function solution(s) {
+  var answer = [];
+  var mk     = (s_, r) => {
+    var t = s_.replace(/0/g, '');
+    r     = [++r[0], r[1]+s_.length-t.length];
+    return (t.length===1) ? r : mk(t.length.toString(2), r);
+  }
+
+  return answer = mk(s, [0,0]);
+}
+
+[소스 - Java]
+class Solution {
+  public int[] solution(String s) {
+    int[] answer = {0,0};
+    mk(s, answer);
+    return answer;
+  }
+  
+  public static int[] mk(String s, int[] r) {
+    String t = s.replaceAll("0", "");
+    r[0] += 1;
+    r[1] += (s.length()-t.length());
+    return (t.length()==1) ? r : mk(Integer.toBinaryString(t.length()), r);
+  }
+}
