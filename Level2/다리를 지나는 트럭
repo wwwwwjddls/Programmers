@@ -6,7 +6,7 @@ https://programmers.co.kr/learn/courses/30/lessons/42583
 3. answer에 1을 더한다.
 4. bridege에서 앞의 요소를 제거한다.
 5. bridege의 합계와 truck_weights 첫 번재 요소의 합이 weight 보다 작거나 같으면 첫 번재요소를 꺼내어 bridege에 담는다.
-6. bridege의 합계와 truck_weights 첫 번재 요소의 합이 weight 보다 크면 0을 다믄ㄴ다.
+6. bridege의 합계와 truck_weights 첫 번재 요소의 합이 weight 보다 크면 0을 담는다.
 7. truck_weights의 길이가 0일때까지 반복한다.
 8. answer에 bridge_length을 더한다.
 
