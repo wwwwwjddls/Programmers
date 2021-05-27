@@ -1,0 +1,48 @@
+https://programmers.co.kr/learn/courses/30/lessons/64065
+
+[풀이]
+1. s를 ','로 나누어 요소를 확인한다.
+2. 요소에서 숫자만 확인한다.
+3. 해당 요소로 map에 키가 있으면 +1을 해주고, 없으면 1을 넣는다.
+4. map의 value 크기로 정렬하여 배열로 만든 후 반환한다.
+
+[소스 - JavaScript]
+function solution(s) {
+  var answer = 0;
+  var map    = {};
+  var num    = (n) => n.match(/[0-9]+/g);
+  var s_     = s.split(',').forEach((a) => map.hasOwnProperty(num(a)) ? map[num(a)]+=1 : map[num(a)]=1);  
+  return answer = Object.keys(map).map((a) => Number(a)).sort((a,b) => map[b]-map[a]);
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public int[] solution(String s) {
+    int[] answer = {};
+    Map<Integer, Integer> map = new HashMap<>();
+
+    String[] s_ = s.split(",");
+	
+    for(int i=0; i<s_.length; i++) {
+      if(map.containsKey(num(s_[i]))) map.replace(num(s_[i]), map.get(num(s_[i]))+1);
+      else map.put(num(s_[i]), 1);
+    }
+	
+    List<Integer> key = new ArrayList<>(map.keySet());
+	
+    Collections.sort(key, new Comparator() {
+      @Override
+      public int compare(Object a, Object b) {
+        return map.get(b)-map.get(a);
+      }
+    });
+
+    return answer = key.stream().mapToInt(i->i).toArray();
+  }
+    
+  int num(String n) {
+    return Integer.parseInt(n.replaceAll("[^0-9]", ""));
+  }
+}
