@@ -5,7 +5,7 @@ https://programmers.co.kr/learn/courses/30/lessons/17680
 2. caities 요소를 확인힌다.
 3. 요소를 소문자로 변경한다.
 4. 배열에 해당 요소가 있는 경우 요소를 지우고 answer에 1을 더한다.
-5. 배열에 요소가 없는 경우 answer에 5를 더하고, 배열과 cacheSize와 길이가 같은 경우 앞요소를 삭제하고 
+5. 배열에 요소가 없는 경우 answer에 5를 더하고, 배열과 cacheSize와 길이가 같은 경우 앞요소를 삭제한다. 
 6. 배열에 요소를 넣는다.
 
 [소스 - JavaScript]
