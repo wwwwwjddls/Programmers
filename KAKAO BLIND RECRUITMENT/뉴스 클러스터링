@@ -1,0 +1,92 @@
+https://programmers.co.kr/learn/courses/30/lessons/17677
+
+[풀이]
+[소스 - JavaScript]
+1. str1과 str2를 소문자로 변경한다.
+2. str1과 str2의 문자 요소를 확인하영 각 요소의 첫 번째와 두 번째문자에 소문자만 있는 경우를 담아 배열을 만든다.
+3. set1배열과 set2배열에 공통된 교집합 부분을 찾는다.
+4. set1과 set2를 합한 길이와 교집합 부분의 길이를 뺀다.
+5. set1과 set2의 길이가 0인 경우 65536을 아닌 경우 교집합 길이와 합집합 길이를 계산한 값을 반환한다.
+
+
+function solution(str1, str2) {
+  str1       = str1.toLowerCase();
+  str2       = str2.toLowerCase();  
+  var set1   = mkSet(str1);
+  var set2   = mkSet(str2);
+  var inter  = mkInter(set1, set2);
+  var union  = set1.concat(set2).length-inter;
+  var answer = 0;
+  return answer = (set1.length===0 && set2.length===0) ? 65536 : Math.floor(inter/union * 65536);
+}  
+
+function mkSet(s) {
+  var r = [];
+  
+  for(var i=0; i<s.length-1; i++) {
+    if(!(s[i]+s[i+1]).match(/[^a-z]/g)) r.push(s[i]+s[i+1]);
+  } 
+  
+  return r;
+}
+
+function mkInter(s1, s2) {
+  var r = [];
+  var [a, b] = [[].concat(s1), [].concat(s2)];
+  
+  while(a.length!==0 && b.length!==0) {
+    var a_  = a.shift();
+    var idx = b.indexOf(a_);
+    
+    if(idx!==-1) {
+      r.push(a_);
+      b[idx] = '';
+    } 	
+  }
+  
+  return r.length
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public int solution(String str1, String str2) {
+    int answer         = 0;
+    str1               = str1.toLowerCase();
+    str2               = str2.toLowerCase();
+    List<String> set1 = mkSet(str1); 
+    List<String> set2 = mkSet(str2); 
+    int union         = set1.size()+set2.size();
+    int inter         = mkInter(set1, set2);
+    return answer = (union==0) ? 65536 : (int)Math.floor((double)inter/(union-inter)*65536);
+  }
+    
+  List<String> mkSet(String s) {
+    List<String> r = new ArrayList<>();
+    
+    for(int i=0; i<s.length()-1; i++) {
+      if((""+s.charAt(i)+s.charAt(i+1)).matches("^[a-z]*$")) r.add(""+s.charAt(i)+s.charAt(i+1));
+    }
+    
+    return r;
+  } 
+    
+  int mkInter(List<String> s1, List<String> s2) {
+    List<String> r = new ArrayList<>(); 
+    int i          = 0;
+    int j          = 0;
+    
+    while(i!=s1.size() && j!=s2.size()) {
+      String a = s1.get(i++);
+      int idx  = s2.indexOf(a);
+      
+      if(idx!=-1) {
+        r.add(a);
+        s2.remove(idx);
+      }
+    }
+    
+    return r.size();
+  } 
+}
