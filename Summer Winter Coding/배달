@@ -1,0 +1,88 @@
+https://programmers.co.kr/learn/courses/30/lessons/12978
+
+[풀이]
+1. N길이만큼 0을 채운 다중배열을 만들고 road[1][2]와 road[2][1]에 해당하는 경로의 수를 배열에 담는다.
+2. n을 길이만큼 0을 채운 배열을 만든다.
+3. map 다중배열의 요소를 0인 경우를 제외하고 하나씩 확인한다.
+4. 확인하려는 요소의 경로의 수가 등록되어 있는 수와 비교하여 최솟값을 넣는다.
+5. 배열의 요소 중 K보다 작은 경우를 필터하여 배열의 길이를 반환한다.
+
+[소스 - JavaScript]
+function solution(N, road, K) {
+  var answer = 1;   
+  var map    = Array.from(Array(N), () => new Array(N).fill(0));
+  var sum    = new Array(N).fill(0);
+  var route  = [0];
+  
+  road.forEach((a) => {
+    var [min, max] = [Math.min(a[0]-1, a[1]-1), Math.max(a[0]-1, a[1]-1)];
+    if(map[min][max]===0 || a[2]<map[min][max]) {
+      map[min][max] = a[2];
+      map[max][min] = a[2];
+    }
+  });
+
+  while(route.length!==0) {
+    var r = route.shift();
+	
+    for(var i=0; i<map[r].length; i++) {
+      if(map[r][i]===0) continue;
+      if(sum[r]+map[r][i]<sum[i] || sum[i]===0) {
+        if(!route.includes(i))route.push(i);	   
+        sum[i] = sum[r]+map[r][i];
+      }
+    }
+  }
+
+  return answer +  sum.filter((a,i) => i!==0 && a<=K).length;
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public int solution(int N, int[][] road, int K) {
+    int answer  = 1;
+    int[][] map = new int[N][N];
+    int[] sum   = new int[N];
+    Queue<Integer> route = new LinkedList<>();
+    route.add(0);
+	
+    for(int i=0; i<N; i++) {
+      for(int j=0; j<N; j++) {
+        map[i][j] = 0;
+      }
+    }
+	
+    for(int i=0; i<N; i++) {
+      sum[i] = 0;
+    }
+	
+    for(int i=0; i<road.length; i++) {
+      int min = Math.min(road[i][0]-1, road[i][1]-1);
+      int max = Math.max(road[i][0]-1, road[i][1]-1);
+      if(map[min][max]==0 || road[i][2]<map[min][max]) {
+        map[min][max] = road[i][2];
+        map[max][min] = road[i][2];
+      }
+    }
+
+    while(route.size()!=0) {
+      int r = route.poll();
+
+      for(int i=0; i<map[r].length; i++) {
+        if(map[r][i]==0) continue;
+        if(sum[r]+map[r][i]<sum[i] || sum[i]==0) {
+          if(!route.contains(i)) route.add(i);
+          sum[i] = sum[r]+map[r][i];
+        }
+      }
+    }
+
+    for(int i=1; i<sum.length; i++) {
+      if(sum[i]<=K) answer++;
+    }
+	
+    return answer;
+  }
+}
