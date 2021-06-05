@@ -1,14 +1,13 @@
 https://programmers.co.kr/learn/courses/30/lessons/17677
 
 [풀이]
-[소스 - JavaScript]
 1. str1과 str2를 소문자로 변경한다.
 2. str1과 str2의 문자 요소를 확인하영 각 요소의 첫 번째와 두 번째문자에 소문자만 있는 경우를 담아 배열을 만든다.
 3. set1배열과 set2배열에 공통된 교집합 부분을 찾는다.
 4. set1과 set2를 합한 길이와 교집합 부분의 길이를 뺀다.
 5. set1과 set2의 길이가 0인 경우 65536을 아닌 경우 교집합 길이와 합집합 길이를 계산한 값을 반환한다.
 
-
+[소스 - JavaScript]
 function solution(str1, str2) {
   str1       = str1.toLowerCase();
   str2       = str2.toLowerCase();  
