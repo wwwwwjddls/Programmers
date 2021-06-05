@@ -1,0 +1,65 @@
+https://programmers.co.kr/learn/courses/30/lessons/17680
+
+[풀이]
+1. cacheSize 길이가 0인 경우 cities길이 * 5를반환한다.
+2. caities 요소를 확인힌다.
+3. 요소를 소문자로 변경한다.
+4. 배열에 해당 요소가 있는 경우 요소를 지우고 answer에 1을 더한다.
+5. 배열에 요소가 없는 경우 answer에 5를 더하고, 배열과 cacheSize와 길이가 같은 경우 앞요소를 삭제하고 
+6. 배열에 요소를 넣는다.
+
+[소스 - JavaScript]
+function solution(cacheSize, cities) {
+  var answer = 0;   
+  var cache  = [];
+  
+  if(cacheSize===0) answer = cities.length*5;
+  else {
+    cities.forEach((a) => {
+      a = a.toLowerCase(a);
+	  
+      if(cache.includes(a)) {
+        cache = cache.filter((b) => b!==a);
+        answer++;
+      }
+      else {
+        if(cacheSize===cache.length) cache.shift();
+        answer += 5;
+      }
+	  	
+      cache.push(a);
+    });
+  }
+  
+  return answer;
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public int solution(int cacheSize, String[] cities) {
+    int answer  = 0;
+    Queue<String> cache = new LinkedList<>();
+    
+    if(cacheSize==0) answer = cities.length*5;
+    else {
+      for(int i=0; i<cities.length; i++) {
+        String a = cities[i].toLowerCase();
+    	  
+        if(cache.contains(a)) {
+          cache.remove(a);
+          answer++;
+        }
+        else {
+          if(cacheSize==cache.size()) cache.poll();
+          answer += 5;
+        }
+    	  
+        cache.add(a);
+      }	
+    }
+    
+    return answer;
+  }
+}
