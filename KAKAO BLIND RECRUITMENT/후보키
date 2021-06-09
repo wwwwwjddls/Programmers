@@ -1,0 +1,122 @@
+https://programmers.co.kr/learn/courses/30/lessons/42890
+
+[풀이]
+1. relation[0] 길이만큼 0부터 숫자배열을 만든다.
+2. 숫자배열로 경우의 수를 만들어 요소를 확인한다.
+3. 숫자배열로 relation조합을 만든다.
+4. 해당 조합의 길이와 중복을 제거한 길이가 같은경우 유일성 통과한다.
+5. 나머지 요소들 중 유일성이 통과한 요소가 포함된 경우 제거한다.
+6. 유일성이 통과한 경우 answer에 1을 더한다
+
+[소스 - JavaScript]
+function solution(relation) {
+  var answer = 0;
+  var num    = Array.from(Array(relation[0].length), (x,i) => i);
+  var case_  = [];
+
+  for(var i=1; i<=relation.length; i++) mkC(i, 0, num, [], case_);
+
+  while(case_.length!==0) {
+    var c = case_.shift();
+    var t = [];
+    relation.forEach((r) => {
+      t.push(c.split('').reduce((a,b) => a+=(','+r[b]),''));
+    });
+    if(uni(t)) {
+      case_ = case_.filter((a) => {
+        var cnt = 0;
+        a.split('').forEach((b) => c.includes(b) ? cnt++ : cnt);
+        return cnt !== c.length;
+      }); 
+
+      answer++;
+    }
+  }
+ 
+  return answer;
+} 
+
+function mkC(len, idx, num, tmp, re) {
+  if(len===tmp.length) {
+    re.push(tmp.join(''));
+    return;
+  }
+  
+  for(var i=idx; i<num.length; i++) {
+    if(tmp.includes(num[i])) continue;
+    tmp.push(num[i]);
+    mkC(len, i+1, num, tmp, re);
+    tmp.pop();
+  }
+} 
+
+function uni(s1) {
+  return s1.length===new Set(s1).size ? true : false;
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public int solution(String[][] relation) {
+    int answer          = 0;
+    int[] num           = new int[relation[0].length];
+    Queue<String> case_ = new LinkedList<>();
+    
+    for(int i=0; i<num.length; i++) num[i] = i;
+    for(int i=1; i<relation.length; i++) mkC(i, 0, num, new ArrayList(), case_);
+    
+    while(case_.size()!=0) {
+      String c       = case_.poll();
+      List<String> t = new ArrayList<>();
+      
+      for(int i=0; i<relation.length; i++) {
+        String[] r  = relation[i];
+        String   tp = "";  
+        for(int j=0; j<c.length(); j++) {
+          tp += (r[c.charAt(j)-'0']);
+        }
+        t.add(tp);
+      }
+      
+      if(uni(t)) {
+        Queue case_1 = new LinkedList<>();
+        answer++;
+        while(case_.size()!=0) {
+          int cnt   = 0;
+          String ca = case_.poll();
+          for(int i=0; i<ca.length(); i++) {
+            if(c.indexOf(ca.charAt(i))!=-1) cnt++;
+          }
+          if(cnt!=c.length()) case_1.add(ca);
+        }
+        case_ = case_1;
+      }
+    }
+    
+    return answer;
+  }
+    
+  Queue<String> mkC(int len, int idx, int[] num, List<Integer> tmp, Queue<String> re) {
+    if(len==tmp.size()) {
+      String a = "";
+      for(int i=0; i<tmp.size(); i++) a += tmp.get(i);
+        re.add(a);
+        return re;
+    }
+	  
+    for(int i=idx; i<num.length; i++) {
+      if(tmp.contains(num[i])) continue;
+      tmp.add(num[i]);
+      mkC(len, i+1, num, tmp, re);
+      tmp.remove(tmp.size()-1);
+    }	  
+    return re;
+  }
+    
+  boolean uni(List<String> s) {
+    Set a = new HashSet();
+    for(String s_ : s) a.add(s_);
+    return s.size()==a.size() ? true : false;
+  }
+}
