@@ -1,0 +1,81 @@
+https://programmers.co.kr/learn/courses/30/lessons/68936
+
+[풀이]
+1. l에 arr길이를 담는다
+2. w에 l*l을 담는다.
+3. l이 1보다 작을때까지 확인한다.
+4. arr배열을 l만큼 건너띄며 확인한다.
+5. 해당 요소가 -1인 경우 건너띈다
+6. 요소 중 모두 같은 요소의 경우 해당 요소들을 -1로 변경한다.
+7. 요소 중 모두 같은 요소의 경우 0인 경우 answer 첫 번째 1을 더하고, 1인 경우 answer 두 번째 1을 더한다.
+
+[소스 - JavaScript]
+function solution(arr) {
+  var answer = [0,0]; 
+  var l      = arr.length;
+  var w      = l*l;
+  
+  while(1<=l) {
+    for(var i=0; i<arr.length; i+=l) {
+      for(var j=0; j<arr.length; j+=l) {
+        var a   = arr[i][j];
+        var cnt = 0;
+        if(a===-1) continue;
+        for(var x=i; x<i+l; x++) {
+          for(var y=j; y<j+l; y++) {
+            if(a===arr[x][y]) cnt++;
+          }
+        }
+        if(cnt===w) {
+          for(var x=i; x<i+l; x++) {
+            for(var y=j; y<j+l; y++) {
+              arr[x][y] = -1;
+            }
+          }		  
+          (a===0) ? answer[0]++ : answer[1]++;
+        }
+      }
+    }
+    l /= 2;
+    w  = l*l;
+  }
+  
+  return answer;
+}
+
+[소스 - Java]
+class Solution {
+  public int[] solution(int[][] arr) {
+    int[] answer = {0,0};
+    int l        = arr.length;
+    int w        = l*l;
+	
+    while(1<=l) {
+      for(int i=0; i<arr.length; i+=l) {
+        for(int j=0; j<arr.length; j+=l) {
+          int a   = arr[i][j];
+          int cnt = 0;
+          if(a==-1) continue;
+          for(int x=i; x<i+l; x++) {
+            for(int y=j; y<j+l; y++) {
+              if(a==arr[x][y]) cnt++;
+            }
+          }
+          if(cnt==w) {
+            for(int x=i; x<i+l; x++) {
+              for(int y=j; y<j+l; y++) {
+                arr[x][y] = -1;
+              }
+            }	    	  
+            if(a==0) answer[0]+=1;
+            else answer[1] +=1;
+          }
+        }
+      }
+      l /= 2;
+      w  = l*l;
+    }
+	
+    return answer;
+  }
+}
