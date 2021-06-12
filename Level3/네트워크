@@ -1,0 +1,69 @@
+https://programmers.co.kr/learn/courses/30/lessons/43162
+
+[풀이]
+1. n까지 해당하는 배열을 만든다.
+2. 어떤 지점에 연결되어 있는지 표시하는 배열을 만든다.(link)
+3. 방문한 지점의 배열을 만든다.(v)
+4. computers의 요소를 확인한다.
+5. 자신의 지점과 연결되어 있는데 link가 -1인 경우 자기요소를 담는다.
+6. 다른지점인 경우 연결된 지점을 link에 담고, v에 담는다.
+7. 모슨 요소가 연결된 경우 link의 중복을 제거한 사이즈를 반환한다.
+
+[소스 - JavaScript]
+function solution(n, computers) {
+  var answer = 0;
+  var num    = Array.from(Array(n), (x,i) => i);
+  var v      = [num.shift()];
+  var link   = new Array(n).fill(-1);
+  
+  while(link.includes(-1)) {
+    var v_ = (v.length===0) ? num.shift() : v.shift();
+    computers[v_].forEach((a,i) => {
+      if(link[i]===-1) {
+        if(v_===i) link[i] = v_;
+        else if(a===1) {
+          link[i] = link[v_];
+          v.push(i);
+          num.splice(num.indexOf(i),1);
+        }
+      }
+    });
+  }
+
+  return answer = new Set(link).size;
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public int solution(int n, int[][] computers) {
+    int answer = 0;
+    Queue<Integer> num = new LinkedList<>();
+    Queue<Integer> v   = new LinkedList<>();
+    List<Integer> link = new ArrayList<>();
+	
+    for(int i=0; i<n; i++) {
+      if(i==0) v.add(i);
+      else num.add(i);
+	  
+      link.add(-1);
+    }
+	
+    while(link.contains(-1)) {
+      int v_ = (v.size()==0) ? num.poll() : v.poll();
+      for(int i=0; i<computers[v_].length; i++) {
+        if(link.get(i)==-1) {
+          if(v_==i) link.set(i, v_);
+          else if(computers[v_][i]==1) {
+            link.set(i, link.get(v_));
+            v.add(i);
+            num.remove(i);
+          }
+        }	  
+      }
+    }
+	
+    return answer = new HashSet<>(link).size();
+  }
+}
