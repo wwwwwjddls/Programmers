@@ -1,0 +1,77 @@
+https://programmers.co.kr/learn/courses/30/lessons/43163
+
+[풀이]
+1. 단어장에 target이 없는 경우 0을 반환한다.
+2. 단어장을 확인한다.
+3. 단어장 중 요소가 하나 바뀌는 요소를 담는다.(기존에 등록된 경우 제외)
+4. 하나 바뀌는 요소가 없거나 target이 선택된 경우 확인을 종료한다.
+5. 학인된 단어들의 길이를 반환한다.(target이 없는 경우 0)
+
+[소스 - JavaScript]
+function solution(begin, target, words) {
+  var answer = 0;
+  var v      = [[begin]];
+  var t      = words.indexOf(target);
+  
+  while(t!==-1 && v.length!==0) {
+    var tmp = [];
+    while(t!==-1 && v.length!==0) {
+      var v_  = v.pop();
+      var v1  = v_[v_.length-1];
+
+      words.forEach((a) => {
+        var cnt = 0; 
+        a.split('').forEach((b,i) => {
+          if(b!==v1[i]) cnt++;
+        });
+        if(cnt===1 && !v_.includes(a)) {
+          tmp.push(v_.concat(a));
+          if(a===target) t = -1;
+        }			
+      });
+    }
+    v = v.concat(tmp);
+  }
+ 
+  return answer = (v.length!==0) ? v[v.length-1].length-1 : 0;
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public int solution(String begin, String target, String[] words) {
+    int answer            = 0;
+    int t                 = new ArrayList<>(Arrays.asList(words)).indexOf(target);
+    List<String> b        = Arrays.asList(begin);
+    Stack<List<String>> v = new Stack<>();
+	
+    v.add(b);
+	
+    while(t!=-1 && v.size()!=0) {
+      Stack<List<String>> tmp = new Stack<>();	
+      while(t!=-1 && v.size()!=0) {
+        List<String> v_ = v.pop();
+        String v1       = v_.get(v_.size()-1);
+	    
+        for(int i=0; i<words.length; i++) {
+          int cnt        = 0;
+          for(int j=0; j<words[i].length(); j++) {
+            if(v1.charAt(j)!=words[i].charAt(j)) cnt++;	  
+          }
+          if(cnt==1 && !v_.contains(words[i])) {
+            List<String> a = new ArrayList<>();
+            a.addAll(v_);
+            a.add(words[i]);
+            tmp.push(a);
+            if(words[i].equals(target)) t = -1;
+          }
+        }
+      }
+	  
+      for(int i=0; i<tmp.size(); i++) v.add(tmp.get(i));
+    }
+	
+    return answer = (v.size()!=0) ? v.get(v.size()-1).size()-1 : 0;
+  }
+}
