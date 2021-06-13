@@ -1,0 +1,91 @@
+https://programmers.co.kr/learn/courses/30/lessons/49189
+
+[풀이]
+1. 방문배열을 만든다.(f)
+2. 인접위치를저장하는 배열을 만든다.(v)
+3. 위치를 key로 인접한 위치를 value로 맵을 만든다.(map)
+4. 위치를 모드 방문할때까지 확인한다.
+5. 인접한 위치를 tmp에 넣고, 방문(f를 false로 변경)한다.
+6. tmp를 v에 선언한다.
+7. 위치를 모두 방문했을 때 v에 남아있는 길이를 반환한다.
+
+[소스 - JavaScript]
+function solution(n, edge) {
+  var answer = 0;
+  var v      = [1];
+  var f      = new Array(n).fill(true);
+  var map    = {};
+
+  edge.forEach((a) => {
+    if (map.hasOwnProperty(a[0])) map[a[0]].push(a[1]);
+    else map[a[0]] = [a[1]];
+    if (map.hasOwnProperty(a[1])) map[a[1]].push(a[0]);
+    else map[a[1]] = [a[0]];
+  });
+
+  while(f.includes(true)) {
+    var tmp = [];
+    while(v.length!==0) {
+      var v_ = v.shift();
+      f[v_-1]  = false;
+      
+      map[v_].forEach((a) => {
+        if(f[a-1]) {
+          f[a-1] = false;
+          tmp.push(a);
+        }
+      });
+    }
+    v = [].concat(tmp);
+  }
+
+  return answer = v.length;
+}
+
+[소스 - Java]
+import java.util.*;
+
+class Solution {
+  public int solution(int n, int[][] edge) {
+    int answer                = 0;
+    Queue<Integer> v          = new LinkedList<>();
+    List<Boolean>  f          = new ArrayList<>();
+    Map<Integer, List<Integer>> map = new HashMap<>();;
+		
+    v.add(1);
+    for(int i=0; i<n; i++) f.add(true);
+    for(int i=0; i<edge.length; i++) {
+      if(map.containsKey(edge[i][0])) map.get(edge[i][0]).add(edge[i][1]);
+      else {
+        List<Integer> tmp = new ArrayList<>();
+        tmp.add(edge[i][1]);
+        map.put(edge[i][0], tmp);
+      }
+      if(map.containsKey(edge[i][1])) map.get(edge[i][1]).add(edge[i][0]);
+      else {
+        List<Integer> tmp = new ArrayList<>();
+        tmp.add(edge[i][0]);
+        map.put(edge[i][1], tmp);
+      }
+    }
+        
+    while(f.contains(true)) {
+      Queue<Integer> tmp = new LinkedList<>(); 
+      while(v.size()!=0) {
+        int v_          = v.poll();
+        List<Integer> l = map.get(v_); 
+        f.set(v_-1, false);
+            
+        for(int i=0; i<l.size(); i++) {
+          if(f.get(l.get(i)-1)) {
+            f.set(l.get(i)-1, false);
+            tmp.add(l.get(i));
+          }
+        }
+      }
+      v = tmp;
+    }
+        
+    return answer = v.size();
+  }
+}
