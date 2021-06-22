@@ -1,0 +1,26 @@
+https://programmers.co.kr/learn/courses/30/lessons/42579
+
+[풀이]
+1. genres의 요소를 확인하여 합계와 각 자리의 숫자를 매칭한다.
+2. 합계가 높은 순으로 정렬한다.
+3. 각 요소 별로 점수가 높은 순으로 정렬한다.
+4. 각 요소의 최고 점수 2자리를 answer에 담는다.
+
+[소스 - JavaScript]
+function solution(genres, plays) {
+  var answer = [];
+  var map    = genres.reduce((a,b,i) => {
+    if(a.hasOwnProperty(b)) {
+      a[b]['IDX'].push([i,plays[i]]);
+      a[b]['SUM'] += plays[i];
+    }
+    else a[b] = {'IDX':[[i,plays[i]]], 'SUM': plays[i]};
+    return a;
+  }, {});
+
+  Object.keys(map).sort((a,b) => map[b]['SUM']-map[a]['SUM']).forEach((a) => {
+    map[a]['IDX'].sort((a,b) => b[1]-a[1]).forEach((a,i) => (i<2) ? answer.push(a[0]) : -1);
+  });
+
+  return answer;
+}
