@@ -1,0 +1,33 @@
+https://programmers.co.kr/learn/courses/30/lessons/77486
+
+[풀이]
+1. seller의 요소를 확인한다.
+2. 요소의 amount에 100을 곱하여 금액을 구한다.
+3. 금액의 10%를 구한다.
+4. 10%가 1보다 작은 경우 해당 answer에 금액 더하고 다음요소를 확인한다.
+5. 10%가 1이상인 경우 answer의 요소에 금액-10%의 금액을 더하고 금액에 10%의 금액을 담는다.
+6. a가 '-'일때까지 요소를 확인한다.
+
+[소스 - JavaScript]
+function solution(enroll, referral, seller, amount) {
+  var answer = new Array(enroll.length).fill(0);
+
+  seller.forEach((a,i) => {
+    var s = amount[i]*100;
+    while(a!=='-') {
+      var fee = Math.floor(s/10);
+      var idx = enroll.indexOf(a);
+      if(fee<1) {
+        answer[idx] += s;
+        break;
+      }
+      else {
+        answer[idx] +=  s-fee;
+        s = fee;
+      }
+      a = referral[idx];	  
+    }
+  });
+  
+  return answer;
+}
