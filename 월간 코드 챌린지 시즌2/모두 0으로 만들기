@@ -1,0 +1,40 @@
+https://programmers.co.kr/learn/courses/30/lessons/76503
+
+[풀이]
+1. edges의 요소를 확인하여 연결된 지점을 담는 배열을 만든다.
+2. 0부터 시작하는 p배열을 만든다.
+3. p배열의 마지막요소를 확인하여 연결된 노드를 p에 담는다.
+4. 연결된 노드가 없는 경우 가중치를 해당 연결된 정점에 더한다.
+5. 연결된 노드가 없는 경우 가중치를 answer에 더한다.
+
+[소스 - JavaScript]
+function solution(a, edges) {
+  var answer = a.reduce((b,c) => b+=c)===0 ? 0n : -1;
+  var map    = new Array(a.length).fill().map((a) => []);
+  var v      = new Array(a.length).fill(true);
+  var p      = [[0,-1]];
+  
+  edges.forEach(([a,b]) => {
+    map[a].push(b);
+    map[b].push(a);
+  });
+  
+  while(answer!==-1 && p.length!==0) {
+    var [x,y] = p.pop();
+	
+    if(!v[x]) {
+      a[y]   += a[x];
+      answer += BigInt(Math.abs(a[x]));
+      continue;
+    }
+
+    v[x]    = false;
+    p.push([x,y]);
+	
+    map[x].forEach((x1) => {
+      if(v[x1]) p.push([x1, x]);
+    });
+  }
+  
+  return answer;
+}
