@@ -1,0 +1,39 @@
+https://programmers.co.kr/learn/courses/30/lessons/17676
+
+[풀이]
+1. lines을 공백으로 나누어 응답완료시간과 처리시간을 통해 시작시간과 응답완료시간을 초단위로 계산한다.
+2. 시작시간과 시작시간+1초, 응답완료시간과 응답완료시간+1초를 계산한다.
+3. 계산된 시간을 하나씩 다른 시간들과 비교한다.
+4. 시작시간과 응답완료시간을 나누어 해당 시간범위에 포함된 경우를 확인한다.
+5. 응답완료시간, 시작시간, answer를 비교하여 큰 숫자를 answer에 담는다.
+
+[소스 - JavaScript]
+function solution(lines) {
+  var answer = 0;
+  var m      = lines.map((a) => {
+    var l = a.split(' ');
+    return get(l[1].split(':'), l[2].replace('s', ''));
+  });
+  
+  for(var i=0; i<lines.length; i++) {
+    var l_i          = m[i];
+    var [s,s1,f,f1] = [l_i[0],l_i[1],l_i[2],l_i[3]];
+    var [sc,fc]     = [0,0];
+    for(var j=0; j<lines.length; j++) {
+      var l_j     = m[j];
+      var [s2,f2] = [l_j[0],l_j[2]];
+      if(s<=s2 && s2<=s1 || s<=f2 && f2<=s1 || s2<=s && s1<=f2 || s<=s2 && f2<=s1) sc++;
+      if(f<=f2 && f2<=f1 || f<=s2 && s2<=f1 || s2<=f && f1<=f2 || f<=s2 && f2<=f1) fc++;
+    }	
+    if(fc<sc) fc = sc;
+    if(answer<fc) answer = fc;
+  }
+  
+  return answer;
+}
+
+function get(a, b) {
+  var f = (a[0]*3600)+(a[1]*60)+Number(a[2]);
+  var s = Number((f-Number(b)+0.001).toFixed(3));
+  return [s,Number((s+0.999).toFixed(3)),f,Number((f+0.999).toFixed(3))];
+}
