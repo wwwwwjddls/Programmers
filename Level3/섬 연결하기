@@ -1,0 +1,31 @@
+https://programmers.co.kr/learn/courses/30/lessons/42861
+
+[풀이]
+1. costs를 비용 기준으로 정렬한다.
+2. 요소를 하나씩 확인한다.
+3. 첫 번째 지점과 두 번째 지점에 연결된 노드를 확인한다.
+4. 노드가 다른 경우 큰 숫자의 지점에 작은 지점을 연결한다.
+5. answer에 비용을 더한다.
+6. 연결안 노드의 갯수가 n-1과 같은면 반환한다.
+
+[소스 - JavaScript]
+function solution(n, costs) {
+  var answer = 0;
+  var cnt    = 0;
+  var node   = Array.from(Array(n), (x,i) => i);
+  var find   = (n) => (node[n]===n) ? n : find(node[n]);
+
+  costs.sort((a,b) => a[2]-b[2]).some(([a,b,c]) => {
+    var [a_, b_] = [find(a), find(b)];
+
+    if(a_!==b_) {
+      if(a_<b_) node[b_] = a_;
+      else node[a_] = b_;
+	  
+      answer += c;
+      if(cnt++===n-1) return answer;
+    }
+  });
+  
+  return answer;
+}
