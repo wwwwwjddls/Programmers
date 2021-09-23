@@ -1,0 +1,68 @@
+https://programmers.co.kr/learn/courses/30/lessons/60059
+
+[풀이]
+1. key와 lock가 하나라도 곂칠수 있는 크기의 배열을 만든다.
+2. 만든 배열안에서 한 칸씩 이동하며 key를 담는다.
+3. 만든 배열의 중간값과 lock를 더해서 1이 아닌 숫자가 있는 경우 건너띈다.
+4. lock을 90도 회전하여 확인한다.(3번)
+5. 만족하는 배열이 없는 경우, 2-4번을 반복적으로 실행한다.
+
+[소스 - Java]
+class Solution {
+  public boolean solution(int[][] key, int[][] lock) {
+    boolean answer = false;
+    int M          = key.length;
+    int N          = lock.length;
+    int L          = N+(M-1)*2;
+    int x          = 0;
+    int y          = 0;
+    int[][] arr    = new int[L][L];
+    
+    while(x+M<=L && y+M<=L) {
+      for(int i=x; i<x+M; i++) {
+        for(int j=y; j<y+M; j++) {
+          arr[i][j] = key[i-x][j-y];
+        }
+      }
+     
+      for(int n=0; n<4; n++) {
+        Loo1: for(int i=0; i<N; i++) {
+          for(int j=0; j<N; j++) {
+            if(arr[M-1+i][M-1+j]+lock[i][j]!=1) break Loo1;
+          }
+          if(i==N-1) return true;
+        }
+       
+        lock = turnL(lock);
+      }
+      
+      for(int i=x; i<x+M; i++) {
+        for(int j=y; j<y+M; j++) {
+          arr[i][j] = 0;
+        }
+      }      
+      
+      if(x+M<L && y+M==L) {
+        x += 1;
+        y  = 0;
+      }
+      else {
+        y += 1;
+      }
+    }
+
+    return answer;
+  }
+    
+  int[][] turnL(int[][] l) {
+    int[][] r = new int[l.length][l.length];
+    
+    for(int i=0; i<l.length; i++) {
+      for(int j=0; j<l.length; j++) {
+        r[i][j] = l[l.length-j-1][i];
+      }
+    }
+    
+    return r;
+  }
+}
