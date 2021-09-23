@@ -1,0 +1,16 @@
+https://programmers.co.kr/learn/courses/30/lessons/81301
+
+[풀이]
+1. 0-9까지 숫자영어로 배열에 담는다.
+2. 해당 숫자에 해당하는 영어가 있는 경우 배열의 index로 치환한다.
+
+[소스 - JavaScript]
+function solution(s) {
+  var answer = '';
+  var s_     = ''; 
+  var num    = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+
+  num.forEach((a,i) => s = s.replace(new RegExp(`${a}`, 'g'), i));
+
+  return answer = Number(s);
+}
