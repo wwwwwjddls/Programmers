@@ -1,0 +1,15 @@
+https://programmers.co.kr/learn/courses/30/lessons/82612
+
+[풀이]
+1. 1부터 count까지 i*price를 더해준다.
+2. 더한금액이 money보다 작은 경우 0, 아닌경우 합계에서 money를 뺀 금액을 반환한다.
+
+[소스 - JavaScript]
+function solution(price, money, count) {
+  var answer = 0;
+  var sum    = 0;
+  
+  for(var i=1; i<=count; i++) sum+=(i*price);
+  
+  return answer = (sum<money) ? 0 : sum-money;
+}
