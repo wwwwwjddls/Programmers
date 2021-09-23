@@ -1,0 +1,56 @@
+https://programmers.co.kr/learn/courses/30/lessons/81302
+
+[풀이]
+1. places의 요소를 하나씩 확인한다.
+2. 확인하는 요소의 상하좌우의 요소를 확인해 나아간다.
+3. 확인하는 요소가 'P'가 있는 경우 results에 0을 담는다.
+4. 확인하는 요소가 'X'가 아닌 경우 다음 확인할 요소에 담는다.
+5. 2-4번을 2번 반복한다.
+6. 반복 시, 'P'가 없는 경우 results에 1을 담는다.
+
+[소스 - JavaScript]
+function solution(places) {
+  var answer = places.map((a) => {
+    for(var i=0; i<a.length; i++) {
+      for(var j=0; j<a.length; j++) {
+        if(a[i][j]==='P' && !check(a,[[i,j]])) return a = 0;
+      }
+    }
+    return a = 1;
+  });
+  return answer;
+}
+
+function check(a,p) {
+  var f   = Array.from(Array(a.length), (x,i) => new Array(a.length).fill(true));
+  var cnt = 0;
+  
+  while(cnt<2 && 0<p.length) {
+    var p_    = p.shift();
+    var [x,y] = [p_[0], p_[1]];
+    f[x][y]   = false;
+	
+    if(0<x && f[x-1][y]) {
+      if(a[x-1][y]==='P') return false;
+      else if(a[x-1][y]!=='X') p.push([x-1,y]);
+    }
+	  
+    if(x<a.length-1 && f[x+1][y]) {
+      if(a[x+1][y]==='P') return false;
+      else if(a[x+1][y]!=='X') p.push([x+1,y]);
+    }
+	  
+    if(0<y && f[x][y-1]) {
+      if(a[x][y-1]==='P') return false;
+      else if(a[x][y-1]!=='X') p.push([x,y-1]);
+    }
+	  
+    if(y<a.length-1 && f[x][y+1]) {
+      if(a[x][y+1]==='P') return false;
+      else if(a[x][y+1]!=='X') p.push([x,y+1]);
+    }
+    cnt++;  
+  }
+  
+  return true;
+}
