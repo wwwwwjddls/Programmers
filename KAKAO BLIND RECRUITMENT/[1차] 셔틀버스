@@ -1,0 +1,48 @@
+https://programmers.co.kr/learn/courses/30/lessons/17678
+
+[풀이]
+1. timetable을 초로 계산한다.
+2. 처음인 경우 s에 540(09:00)를 담고, 아닌 경우 셔틀 운행 간격을 더해준다.
+3. 크루를 태울 수 있고, timetable의 시간내에 있는 경우(s내) 해당 크루를 map에 담는다. 
+4. 셔틀 운행 횟수가 0보다 클때까지 2-3번을 반복한다.
+5. 마지막 s의 시간에 크루가 없거나, 크루가 모두 타지 못하는 경우 해당 시간에 태워야 한다.
+6. 아닌 경우, s의 시간에 태운 마지막 크루보다 1초 빠르게 한다.
+7. 구한 시간을 '00:00'형식으로 변경한다.
+
+[소스 - JavaScript]
+function solution(n,t,m,timetable) {
+  var answer = "";
+  var time_  = timetable.map(a => time1(a)).sort((a,b) => a-b);
+  var map    = {};
+  var s      = 0;
+  
+  while(0<n--) {
+    var m_ = m;
+    s     += (s===0) ? 540 : t;
+    if(!map.hasOwnProperty(s)) map[s] = [];
+	
+    while(true) {
+      if(m_===0 || time_.length===0 || s<time_[0]) break;
+      map[s].push(time_.shift());
+      m_--;
+    }
+  }
+  
+  var a_ = map[s]
+  
+  return answer = (a_.length===0 || a_.length<m) ? time2(s) : time2(a_[a_.length-1]-1); 
+}
+
+function time1(t) {
+  var a = t.split(':');
+  return a[0]*60+Number(a[1]);
+}
+
+function time2(t) {
+  if(t===0) return '00:00';
+  var hh = parseInt(t/60);
+  var mm = t%60;
+  hh     = (hh<10) ? `0${hh}` : hh;
+  mm     = (mm<10) ? `0${mm}` : mm;
+  return `${hh}:${mm}`
+}
